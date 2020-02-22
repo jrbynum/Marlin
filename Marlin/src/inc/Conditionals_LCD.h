@@ -502,21 +502,24 @@
 
 #if HAS_BED_PROBE
   #define HAS_PROBE_XY_OFFSET   DISABLED(NOZZLE_AS_PROBE)
-  #define HAS_CUSTOM_PROBE_PIN  DISABLED(Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN)
-  #define HOMING_Z_WITH_PROBE   (Z_HOME_DIR < 0 && !HAS_CUSTOM_PROBE_PIN)
-  #ifndef Z_PROBE_LOW_POINT
-    #define Z_PROBE_LOW_POINT -5
-  #endif
-  #if ENABLED(Z_PROBE_ALLEN_KEY)
-    #define PROBE_TRIGGERED_WHEN_STOWED_TEST // Extra test for Allen Key Probe
-  #endif
-  #ifdef MULTIPLE_PROBING
-    #if EXTRA_PROBING
-      #define TOTAL_PROBING (MULTIPLE_PROBING + EXTRA_PROBING)
+//  #define HAS_CUSTOM_PROBE_PIN  DISABLED(Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN)
+//  #define HOMING_Z_WITH_PROBE   (Z_HOME_DIR < 0 && !HAS_CUSTOM_PROBE_PIN)
+//RUSTY
+  #define HAS_CUSTOM_PROBE_PIN true
+  #define HOMING_Z_WITH_PROBE (Z_HOME_DIR < 0)
+#ifndef Z_PROBE_LOW_POINT
+  #define Z_PROBE_LOW_POINT -5
+#endif
+#if ENABLED(Z_PROBE_ALLEN_KEY)
+  #define PROBE_TRIGGERED_WHEN_STOWED_TEST // Extra test for Allen Key Probe
+#endif
+#ifdef MULTIPLE_PROBING
+  #if EXTRA_PROBING
+  #define TOTAL_PROBING (MULTIPLE_PROBING + EXTRA_PROBING)
     #else
-      #define TOTAL_PROBING MULTIPLE_PROBING
-    #endif
-  #endif
+  #define TOTAL_PROBING MULTIPLE_PROBING
+#endif
+#endif
 #else
   // Clear probe pin settings when no probe is selected
   #undef Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
